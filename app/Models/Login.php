@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Login extends Model implements AuthenticatableContract
+class Login extends Authenticatable implements JWTSubject
 {
-    use Authenticatable;
+    use HasFactory;
 
     protected $table = 'login';
     protected $primaryKey = 'person_id';
@@ -21,7 +21,17 @@ class Login extends Model implements AuthenticatableContract
         return $this->belongsTo(Person::class);
     }
 
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
     protected $fillable = [
-        'person_id', 'email', 'pass', 'active_from', 'active_thru', 'is_primary'
+        'person_id', 'email', 'password', 'active_from', 'active_thru', 'is_primary'
     ];
 }

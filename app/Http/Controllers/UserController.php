@@ -25,7 +25,6 @@ class UserController extends Controller
                 'city' => $address->address->city,
                 'postcode' => $address->address->postcode,
                 'state' => $address->address->state->name,
-                'country' => $address->address->state->country->name,
                 'active_from' => $address->active_from,
                 'active_thru' => $address->active_thru,
                 'is_primary' => $address->is_primary,
