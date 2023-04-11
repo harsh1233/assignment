@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\Login;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -17,22 +18,24 @@ class LoginController extends Controller
         // Validate request data
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'pass' => 'required'
         ]);
 
         // Authenticate the user
-        $credentials = $request->only('email', 'password');
-        try {
-            if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 400);
-            }
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'could_not_create_token'], 500);
+        $credentials = $request->only('email', 'pass');
+        $user = Login::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['pass'], $user->pass)) {
+            return response()->json(['error' => 'invalid_credentials'], 400);
         }
+
+        // Generate a new JWT token
+        $token = JWTAuth::fromUser($user);
 
         // Return the JWT token
         return response()->json(compact('token'));
     }
+
 
     public function logout(Request $request)
     {

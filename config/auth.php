@@ -30,6 +30,7 @@ return [
             'provider' => 'users',
             'table' => 'login',
             'expire' => 60,
+            'column' => 'pass',
         ],
     ],
 

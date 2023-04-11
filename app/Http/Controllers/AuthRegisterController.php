@@ -70,7 +70,7 @@ class AuthRegisterController extends Controller
         $login = new Login();
         $login->person_id = $person->id;
         $login->email = $request->input('email');
-        $login->password = Hash::make($request->input('password'));
+        $login->pass = Hash::make($request->input('password'));
         $login->active_from = date('Y-m-d H:i:s');
         $login->is_primary = 1;
         $login->save();

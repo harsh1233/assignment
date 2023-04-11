@@ -32,6 +32,6 @@ class Login extends Authenticatable implements JWTSubject
     }
 
     protected $fillable = [
-        'person_id', 'email', 'password', 'active_from', 'active_thru', 'is_primary'
+        'person_id', 'email', 'pass', 'active_from', 'active_thru', 'is_primary'
     ];
 }
